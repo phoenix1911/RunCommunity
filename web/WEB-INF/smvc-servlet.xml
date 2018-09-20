@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+    <!-- 添加注解驱动，定义了很多默认配置 -->
+    <mvc:annotation-driven />
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <!-- 设置生成的视图的类型，比如jsp对应的视图类为 JstlView-->
+        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"></property>
+        <!-- 如果要返回的所有的视图都在同一个package下，比如都在/WEB-INF下，可以使用同一的前缀 -->
+        <property name="prefix" value="/WEB-INF/jsp/"></property>
+        <!-- 如果所有页面返回的均是.jsp页面，可以省略后缀 -->
+        <property name="suffix" value=".jsp"></property>
+    </bean>
+    <!--处理静态资源   -->
+    <mvc:resources location="/css/" mapping="/css/**"/>
+    <mvc:resources location="/js/" mapping="/js/**"/>
+    <mvc:resources location="/images/" mapping="/images/**"/>
+    <mvc:resources location="/style/" mapping="/style/**"/>
+    <!--扫描  -->
+    <context:component-scan base-package="web" />
+
+    <!-- spring文件上传需要启动 MultipartResolver.默认不支持。和common-fileupload结合。 -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!-- 上传文件的最大字节数 -->
+        <property name="maxUploadSize" value="104857600"></property>
+    </bean>
+
+    <mvc:view-controller path="/register" view-name="register"/>
+</beans>
